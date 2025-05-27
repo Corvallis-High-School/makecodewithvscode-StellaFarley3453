@@ -1,36 +1,36 @@
-/*
- * Constant variables
- */
+//Constant variables
 
-/*
- * Global variables
- */
-let list: Image[] = []
+//Global variableS
 
-/*
- * Classes
- */
+//Classes
 
-/*
- * Functions
- */
-function showSprite (mySprite: Sprite) {
-    mySprite.setPosition(randint(0, scene.screenWidth() - 8), randint(0, scene.screenHeight() - 8))
+//Functions
+function createdonut() {
+    let donut = sprites.create(assets.image`myDonut`, SpriteKind.Food)
+    donut.setPosition(randint(8, 158), randint(8, 112))
 }
+function createsnake() {
+    let enemy = sprites.create(assets.image`mySnake`, SpriteKind.Enemy)
+    enemy.follow(player, 150, 15)
+    enemy.setPosition(randint(8, 158), randint(8, 112))
+}
+//Event handlers
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function(sprite:Sprite,otherSprite:Sprite){
+    sprites.destroy(otherSprite)
+    createdonut()
+    info.changeScoreBy(1)
 
-/*
- * Event handlers
- */
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    showSprite(sprites.create(list._pickRandom(), SpriteKind.Player))
 })
-
-/*
- *Main program
- */
-list = [
-assets.image`myCat`,
-assets.image`mySnake`,
-assets.image`myShroom`,
-assets.image`myDonut`
-]
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function(sprite:Sprite,otherSprite:Sprite){
+    sprites.destroy(otherSprite)
+    createsnake()
+    info.changeLifeBy(-1)
+})
+//Main program
+info.setScore(0)
+let player = sprites.create(assets.image`myCat`, SpriteKind.Player)
+controller.moveSprite(player)
+createdonut()
+createsnake()
+scene.setTileMapLevel(assets.tilemap`level`)
+scene.cameraFollowSprite(player)

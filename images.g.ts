@@ -97,3 +97,9 @@ a a 3 3 3 d d d a a 4 4 4 e e .
 
 }
 // Auto-generated code. Do not edit.
+
+// Auto-generated code. Do not edit.
+namespace myTiles {
+
+}
+// Auto-generated code. Do not edit.
